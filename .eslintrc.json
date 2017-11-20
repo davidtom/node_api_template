@@ -1,0 +1,33 @@
+{
+    "extends": "standard",
+    "rules": {
+        "indent": [
+            "warn",
+            4
+        ],
+        "semi": [
+            "warn",
+            "always"
+        ],
+        "quotes": [
+            "warn",
+            "single"
+        ],
+        "eol-last": [
+            "warn",
+            "always"
+        ],
+        "no-debugger": [
+            "off"
+        ],
+        "no-unused-vars": [
+            "warn"
+        ],
+        "space-before-function-paren": [
+            "warn"
+        ],
+        "space-before-blocks": [
+            "warn"
+        ]
+    }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "node_api_template",
+  "version": "1.0.0",
+  "description": "Boilerplate setup for an api written with MEN stack",
+  "main": "index.js",
+  "scripts": {
+    "start": "./node_modules/.bin/eslint ./src/ && NODE_ENV=development node --inspect ./src/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "David Tomczyk",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.2",
+    "express-logging": "^1.1.1",
+    "logops": "^2.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.11.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1"
+  }
+}
