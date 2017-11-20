@@ -3,10 +3,10 @@ const router = express.Router();
 
 // handle all routes to /api/v1/users
 router.route('/')
-    .get(function(req, resp){
-        resp.json("hello!");
+    .get(function(req, resp) {
+        resp.json('hello!');
     })
-    .post(function(req, resp){
+    .post(function(req, resp) {
 
     });
 

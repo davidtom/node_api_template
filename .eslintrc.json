@@ -24,7 +24,7 @@
             "warn"
         ],
         "space-before-function-paren": [
-            "warn"
+            "off"
         ],
         "space-before-blocks": [
             "warn"

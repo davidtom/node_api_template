@@ -45,14 +45,14 @@ function onError(error) {
 
     // Handle specific errors
     switch (error.code) {
-        case 'EACCES':
-            console.error('Error: ' + bind + ' requires elevated privileges');
-            process.exit(1);
-        case 'EADDRINUSE':
-            console.error('Error: ' + bind + ' is already in use');
-            process.exit(1);
-        default:
-            throw error;
+    case 'EACCES':
+        console.error('Error: ' + bind + ' requires elevated privileges');
+        process.exit(1);
+    case 'EADDRINUSE':
+        console.error('Error: ' + bind + ' is already in use');
+        process.exit(1);
+    default:
+        throw error;
     }
 };
 

@@ -1,7 +1,12 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const expressLogging = require('express-logging');
 const logger = require('logops');
-const bodyParser = require('body-parser');
+
+// const mongoose = require('mongoose');
+
+// Connect to MongoDB through Mongoose
+// mongoose.connect('db route', optionsObject);
 
 // Set up Express app
 const app = express();
