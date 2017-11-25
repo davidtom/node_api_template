@@ -4,7 +4,7 @@ const router = express.Router();
 // handle all routes to /api/v1/users
 router.route('/')
     .get(function(req, resp) {
-        resp.json('hello!');
+        resp.json("im a user!");
     })
     .post(function(req, resp) {
 
