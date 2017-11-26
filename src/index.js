@@ -61,5 +61,5 @@ function onListening() {
     let addr = server.address();
     let bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
     console.log('Running in environment: ' + env);
-    console.log(`The server is listening on ${bind}`);
+    console.log(`The server is listening on ${bind}\n`);
 };
