@@ -1,6 +1,11 @@
+// Library Imports
 const express = require('express');
-const router = express.Router();
 
+// Global Imports
+// Project Imports
+
+// Create router object and assign routes
+const router = express.Router();
 router.use('/users', require('./users'));
 
 module.exports = router;
