@@ -42,6 +42,7 @@ router.route('/')
             // Create a new User and send back as response
             User.create(userData, function(err, user) {
                 if (err) {
+                    err.status = 400;
                     next(err);
                 } else {
                     res.json(user);
