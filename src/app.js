@@ -1,12 +1,12 @@
+// Library Imports
 const express = require('express');
 const bodyParser = require('body-parser');
 const expressLogging = require('express-logging');
 const logger = require('logops');
 
-// const mongoose = require('mongoose');
-
-// Connect to MongoDB through Mongoose
-// mongoose.connect('db route', optionsObject);
+// Global Imports
+// Project Imports
+const AppError = require('./utils/appError');
 
 // Set up Express app
 const app = express();
@@ -18,7 +18,7 @@ app.use(expressLogging(logger));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // Default all response headers to JSON
-app.use((req, res, next) => {
+app.use(function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     next();
 });
@@ -26,10 +26,22 @@ app.use((req, res, next) => {
 // Routes
 app.use('/api/v1', require('./routes'));
 
-// Error Handling
-app.use((err, req, res, next) => {
+// Catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    const err = new AppError('Requested URL not found', 404);
+    next(err);
+});
+
+// Error Handler
+// NOTE: Error-handling middleware always takes four arguments. You must provide four
+// arguments to identify it as an error-handling middleware function
+app.use(function(err, req, res, next) {
     console.log(err);
-    res.status(500).send('An error occurred.');
+    res.status(err.status || 500);
+    res.json({
+        status: err.status,
+        message: err.message
+    });
 });
 
 module.exports = app;
