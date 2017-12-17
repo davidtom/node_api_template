@@ -2,7 +2,8 @@
 const app = require('./app');
 const http = require('http');
 const mongoose = require('mongoose');
-require('dotenv').config(); // configure dotenv to import data from .env to process.env
+const colors = require('colors');
+require('dotenv').config();
 
 // Global Imports
 // Project Imports
@@ -75,10 +76,10 @@ function onServerError(error) {
     // Handle specific errors
     switch (error.code) {
     case 'EACCES':
-        console.error('Error: ' + bind + ' requires elevated privileges');
+        console.error('Error: ' + bind + ' requires elevated privileges'.red);
         process.exit(1);
     case 'EADDRINUSE':
-        console.error('Error: ' + bind + ' is already in use');
+        console.error('Error: ' + bind + ' is already in use'.red);
         process.exit(1);
     default:
         throw error;
@@ -101,7 +102,7 @@ function onMongooseConnected() {
 
 // Connection Error
 function onMongooseError(err) {
-    console.log('ERROR: Mongoose connection error: ' + err);
+    console.log(colors.red('ERROR: Mongoose connection error: ' + err));
 };
 
 // Connection is disconnected
