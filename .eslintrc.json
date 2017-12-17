@@ -31,12 +31,13 @@
         ],
 
         "object-curly-spacing": [
-            "error",
+            "warn",
             "always"
         ],
         "no-var": 1,
         "no-trailing-spaces": 1,
         "comma-dangle": 1,
+        "comma-spacing": 1,
         "no-useless-escape": 0,
         "keyword-spacing": 1,
          "operator-linebreak": 1

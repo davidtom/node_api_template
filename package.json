@@ -4,7 +4,7 @@
   "description": "Boilerplate setup for a Node API running Express and MongoDB",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/eslint ./src/ && NODE_ENV=development nodemon --inspect ./src/",
+    "start": "NODE_ENV=development nodemon ./src/ --exec './node_modules/.bin/eslint ./src/ && node --inspect'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "David Tomczyk",
