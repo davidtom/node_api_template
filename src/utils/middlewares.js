@@ -58,7 +58,7 @@ module.exports = {
         // Pull data from request body
         const { email, password } = req.body;
         // Check that all data is present and set it to req.userCredentials if it is
-        if (email && password){
+        if (email && password) {
             const userCredentials = {
                 email,
                 password
@@ -91,6 +91,6 @@ module.exports = {
                 _id: data._id
             };
             next();
-        })
+        });
     }
 };

@@ -10,7 +10,7 @@ const constants = require('../utils/constants');
 
 const router = express.Router();
 const { checkLogInData, authorizeRequest } = middlewares;
-const { issueJWT, decodeJWT } = auth;
+const { issueJWT } = auth;
 
 // handle all routes to /api/v1/session
 router.route('/')
@@ -19,12 +19,12 @@ router.route('/')
         // If authorization is successful, respond with user data
         const { currentUser } = req;
         const { publicUser } = constants.projections;
-        User.find({_id: currentUser._id}, publicUser, function(err, user) {
+        User.find({ _id: currentUser._id }, publicUser, function(err, user) {
             if (err) {
                 return next(err);
             }
             res.json(user);
-        })
+        });
     })
     // POST = login
     .post(checkLogInData, function(req, res, next) {
@@ -35,8 +35,8 @@ router.route('/')
             }
             // If authentication is successful, create a jwt and send it
             // along with sanitized user data in response
-            issueJWT(user, function(err, token){
-                if(err) {
+            issueJWT(user, function(err, token) {
+                if (err) {
                     return next(err);
                 }
                 res.json({
@@ -47,7 +47,7 @@ router.route('/')
         });
     })
     // DELETE = logout
-    .delete(function(req, res, next) {
+    .delete(authorizeRequest, function(req, res, next) {
         // TODO: logout functions
     });
 

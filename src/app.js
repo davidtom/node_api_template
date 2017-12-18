@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const expressLogging = require('express-logging');
 const logger = require('logops');
+const colors = require('colors');
 
 // Global Imports
 // Project Imports
@@ -39,7 +40,7 @@ app.use(function(req, res, next) {
 // NOTE: Error-handling middleware always takes four arguments. You must provide four
 // arguments to identify it as an error-handling middleware function
 app.use(function(err, req, res, next) {
-    console.log(err);
+    console.log(colors.red('Error: ') + err);
     res.status(err.status || 500);
     res.json({
         status: err.status,

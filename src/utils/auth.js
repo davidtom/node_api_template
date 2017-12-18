@@ -27,9 +27,9 @@ module.exports = {
         // Decode JWT and supply its data or errors to callback function
         jwt.verify(token, secret, options, function(err, decoded) {
             if (err) {
-                return cb(err)
+                return cb(err);
             }
             cb(null, decoded);
         });
-    } 
+    }
 };

@@ -107,5 +107,6 @@ function onMongooseError(err) {
 
 // Connection is disconnected
 function onMongooseDisconnected () {
-    console.log('Mongoose connection disconnected');
+    console.log('Mongoose connection disconnected. Exiting'.red);
+    process.exit(1);
 };

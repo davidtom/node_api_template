@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=development nodemon ./src/ --exec './node_modules/.bin/eslint ./src/ && node --inspect'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "NODE_ENV=development node --inspect ./src"
   },
   "author": "David Tomczyk",
   "license": "MIT",
