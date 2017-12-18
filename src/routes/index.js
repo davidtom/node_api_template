@@ -7,5 +7,6 @@ const express = require('express');
 // Create router object and assign routes
 const router = express.Router();
 router.use('/users', require('./users'));
+router.use('/session', require('./session'));
 
 module.exports = router;

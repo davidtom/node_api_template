@@ -7,6 +7,7 @@ const logger = require('logops');
 // Global Imports
 // Project Imports
 const AppError = require('./utils/appError');
+const middlewares = require('./utils/middlewares');
 
 // Set up Express app
 const app = express();
@@ -22,6 +23,8 @@ app.use(function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     next();
 });
+// Normalize/clean specific request data
+app.use(middlewares.normalizeBody);
 
 // Routes
 app.use('/api/v1', require('./routes'));

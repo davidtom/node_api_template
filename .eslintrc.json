@@ -40,6 +40,8 @@
         "comma-spacing": 1,
         "no-useless-escape": 0,
         "keyword-spacing": 1,
-         "operator-linebreak": 1
+         "operator-linebreak": 1,
+         "padded-blocks": 1,
+         "spaced-comment": 1
     }
 }
