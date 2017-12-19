@@ -3,6 +3,8 @@
 // Project Imports
 const AppError = require('../utils/appError');
 const auth = require('./auth');
+const User = require('../models/User');
+const constants = require('./constants');
 
 const { decodeJWT } = auth;
 
@@ -87,10 +89,19 @@ module.exports = {
                 const appErr = new AppError('Unauthorized: invalid token', 401);
                 return next(appErr);
             }
-            req.currentUser = {
-                _id: data._id
-            };
-            next();
+            // If there is no id present in data to find a user with
+            // allow request, but without a currentUser
+            if (!data._id) {
+                return next();
+            }
+            const { privateUser } = constants.projections;
+            User.find({ _id: data.id, privateUser }, function(err, user) {
+                if (err) {
+                    return next(err);
+                }
+                req.currentUser = user;
+                next();
+            });
         });
     }
 };
