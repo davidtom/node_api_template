@@ -73,7 +73,8 @@ module.exports = {
         next(err);
     },
 
-    // Block any requests that do not have a valid token
+    // Block any requests that do not have a valid token. Authorized requests
+    // will yield a currentUser object on req
     authorizeRequest: function(req, res, next) {
         // Check that the headers have a token field
         const { token } = req.headers;
@@ -89,10 +90,11 @@ module.exports = {
                 const appErr = new AppError('Unauthorized: invalid token', 401);
                 return next(appErr);
             }
-            // If there is no id present in data to find a user with
-            // allow request, but without a currentUser
+            // If there is no _id present in data to find a user with
+            // block request as unauthorized
             if (!data._id) {
-                return next();
+                const appErr = new AppError('Unauthorized: invalid data decoded from token', 401);
+                return next(appErr);
             }
             const { privateUser } = constants.projections;
             User.find({ _id: data.id, privateUser }, function(err, user) {
