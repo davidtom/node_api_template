@@ -8,7 +8,6 @@ module.exports = {
             _id: true,
             firstName: true,
             lastName: true,
-            email: true,
             roles: true
         }
     }
