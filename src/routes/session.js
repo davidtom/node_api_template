@@ -4,13 +4,12 @@ const express = require('express');
 // Global Imports
 // Project Imports
 const User = require('../models/User');
-const middlewares = require('../utils/middlewares');
-const auth = require('../utils/auth');
+const authorizeRequest = require('../middlewares/authorizeRequest');
+const checkLogInData = require('../middlewares/logIn');
+const { issueJWT } = require('../utils/auth');
 const constants = require('../utils/constants');
 
 const router = express.Router();
-const { checkLogInData, authorizeRequest } = middlewares;
-const { issueJWT } = auth;
 
 // handle all routes to /api/v1/session
 router.route('/')

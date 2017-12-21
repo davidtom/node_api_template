@@ -8,7 +8,7 @@ const colors = require('colors');
 // Global Imports
 // Project Imports
 const AppError = require('./utils/appError');
-const middlewares = require('./utils/middlewares');
+const normalizeBody = require('./middlewares/normalizeBody');
 
 // Set up Express app
 const app = express();
@@ -25,7 +25,7 @@ app.use(function(req, res, next) {
     next();
 });
 // Normalize/clean specific request data
-app.use(middlewares.normalizeBody);
+app.use(normalizeBody);
 
 // Routes
 app.use('/api/v1', require('./routes'));

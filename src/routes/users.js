@@ -4,13 +4,12 @@ const express = require('express');
 // Global Imports
 // Project Imports
 const User = require('../models/User');
-const middlewares = require('../utils/middlewares');
-const auth = require('../utils/auth');
+const { signUpDataPresent, passwordsMatch } = require('../middlewares/signUp');
+const authorizeRequest = require('../middlewares/authorizeRequest');
+const { issueJWT } = require('../utils/auth');
 const constants = require('../utils/constants');
 
 const router = express.Router();
-const { signUpDataPresent, passwordsMatch, authorizeRequest } = middlewares;
-const { issueJWT } = auth;
 
 // handle all routes to /api/v1/users
 router.route('/')
@@ -43,7 +42,7 @@ router.route('/')
                 res.json({
                     token: token,
                     user: user.public()
-                })
+                });
             });
         });
     });
