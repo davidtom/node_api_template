@@ -5,10 +5,12 @@ const express = require('express');
 // Project Imports
 const User = require('../models/User');
 const middlewares = require('../utils/middlewares');
+const auth = require('../utils/auth');
 const constants = require('../utils/constants');
 
 const router = express.Router();
 const { signUpDataPresent, passwordsMatch, authorizeRequest } = middlewares;
+const { issueJWT } = auth;
 
 // handle all routes to /api/v1/users
 router.route('/')
@@ -32,9 +34,17 @@ router.route('/')
                 err.status = 400;
                 return next(err);
             }
-            // Respond with new user
-            // TODO: loop this into auth flow
-            res.json(user);
+            // Respond with token and public user data
+            // (same as login - GET /session)
+            issueJWT(user, function(err, token) {
+                if (err) {
+                    return next(err);
+                }
+                res.json({
+                    token: token,
+                    user: user.public()
+                })
+            });
         });
     });
 
