@@ -40,8 +40,8 @@ router.route('/')
                     return next(err);
                 }
                 res.json({
-                    token: token,
-                    user: user
+                    token,
+                    user
                 });
             });
         });
