@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 // Project Imports
 
 // Specify secret and options for encoding and decoding JWT
-const secret = 'secret';
+const secret = process.env.JWT_SECRET;
 const options = {};
 
 module.exports = {
