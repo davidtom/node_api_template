@@ -79,7 +79,7 @@ module.exports = {
         // Check that the headers have a token field
         const { token } = req.headers;
         if (!token) {
-            const err = new AppError('No token found in headers', 400);
+            const err = new AppError('Unauthorized: no token found in headers', 401);
             return next(err);
         }
         // If token cannot be decoded, raise an error;
