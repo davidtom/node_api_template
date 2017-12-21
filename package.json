@@ -6,7 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=development nodemon ./src/ --exec './node_modules/.bin/eslint ./src/ && node --inspect'",
     "test": "npm run test-unit",
-    "test-unit": "NODE_ENV=test mocha --require co-mocha ./src/*.spec.js",
+    "test-unit": "NODE_ENV=test mocha './src/tests/**/*.spec.js'",
     "server": "NODE_ENV=development node --inspect ./src"
   },
   "author": "David Tomczyk",
