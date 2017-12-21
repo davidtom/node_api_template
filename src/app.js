@@ -10,12 +10,17 @@ const colors = require('colors');
 const AppError = require('./utils/appError');
 const normalizeBody = require('./middlewares/normalizeBody');
 
+// Create constant for Node Environment
+const env = process.env.NODE_ENV;
+
 // Set up Express app
 const app = express();
 
 // Middlewares
-// Server log
-app.use(expressLogging(logger));
+// Server log (don't log during tests)
+if (env !== 'test') {
+    app.use(expressLogging(logger));
+}
 // Parse JSON
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -36,11 +41,16 @@ app.use(function(req, res, next) {
     next(err);
 });
 
+// Error Logger (don't log errors during tests)
+if (env !== 'test') {
+    app.use(function(err, req, res, next) {
+        console.log(colors.red('Error: ') + err);
+        next(err);
+    })
+}
+
 // Error Handler
-// NOTE: Error-handling middleware always takes four arguments. You must provide four
-// arguments to identify it as an error-handling middleware function
 app.use(function(err, req, res, next) {
-    console.log(colors.red('Error: ') + err);
     res.status(err.status || 500);
     res.json({
         status: err.status,

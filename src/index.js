@@ -40,9 +40,12 @@ const dbURI = dbPath + dbName;
 mongoose.connect(dbPath + dbName, options);
 
 // Set up event handlers for MongoDB connection
-mongoose.connection.on('connected', onMongooseConnected);
-mongoose.connection.on('error', onMongooseError);
-mongoose.connection.on('disconnected', onMongooseDisconnected);
+// (don't log events during tests)
+if (env !== 'test') {
+    mongoose.connection.on('connected', onMongooseConnected);
+    mongoose.connection.on('error', onMongooseError);
+    mongoose.connection.on('disconnected', onMongooseDisconnected);
+}
 
 // Helper functions (used above)
 // -----------------------------
