@@ -61,10 +61,13 @@ app.use(function(err, req, res, next) {
 });
 
 // Connect to Mongo
+// Paths will differ between dev/test and prod, so set accordingly
 const dbPath = (env === 'production')
     ? process.env.DB_PATH_PROD : process.env.DB_PATH_DEV;
 
-const dbName = process.env.DB_NAME;
+// Db name will differ between dev/prod and test, so set accordingly
+const dbName = (env === 'test')
+    ? process.env.DB_NAME_TEST : process.env.DB_NAME;
 
 const options = {
     keepAlive: 300000,
