@@ -1,5 +1,7 @@
 // Library Imports
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
 // Global Imports
 // Project Imports
 
