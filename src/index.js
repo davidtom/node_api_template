@@ -1,8 +1,6 @@
 // Library Imports
 const app = require('./app');
 const http = require('http');
-const mongoose = require('mongoose');
-const colors = require('colors');
 require('dotenv').config();
 
 // Global Imports
@@ -23,33 +21,7 @@ server.listen(port);
 server.on('error', onServerError);
 server.on('listening', onServerListening);
 
-// Specify MongoDB database path, name and connection options
-const dbPath = (process.env.NODE_ENV === 'production')
-    ? process.env.DB_PATH_PROD : process.env.DB_PATH_DEV;
-
-const dbName = process.env.DB_NAME;
-
-const options = {
-    keepAlive: 300000,
-    connectTimeoutMS: 30000,
-    useMongoClient: true
-};
-
-// Connect to MongoDB through Mongoose
-const dbURI = dbPath + dbName;
-mongoose.connect(dbPath + dbName, options);
-
-// Set up event handlers for MongoDB connection
-// (don't log events during tests)
-if (env !== 'test') {
-    mongoose.connection.on('connected', onMongooseConnected);
-    mongoose.connection.on('error', onMongooseError);
-    mongoose.connection.on('disconnected', onMongooseDisconnected);
-}
-
 // Helper functions (used above)
-// -----------------------------
-// Express Functions
 // Normalize a port into a number, string or false
 function normalizePort(val) {
     const port = parseInt(val, 10);
@@ -95,23 +67,6 @@ function onServerListening() {
     const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
     console.log('Running in environment: ' + env);
     console.log(`The server is listening on ${bind}\n`);
-};
-
-// Mongoose Functions
-// Connection Success
-function onMongooseConnected() {
-    console.log('Mongoose successfully connected to ' + dbURI);
-};
-
-// Connection Error
-function onMongooseError(err) {
-    console.log(colors.red('ERROR: Mongoose connection error: ' + err));
-};
-
-// Connection is disconnected
-function onMongooseDisconnected () {
-    console.log('Mongoose connection disconnected.'.red);
-    throw new Error('Mongoose disconnected').red();
 };
 
 // export app for testing

@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const expressLogging = require('express-logging');
 const logger = require('logops');
 const colors = require('colors');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
 // Global Imports
 // Project Imports
@@ -46,7 +48,7 @@ if (env !== 'test') {
     app.use(function(err, req, res, next) {
         console.log(colors.red('Error: ') + err);
         next(err);
-    })
+    });
 }
 
 // Error Handler
@@ -57,5 +59,36 @@ app.use(function(err, req, res, next) {
         message: err.message
     });
 });
+
+// Connect to Mongo
+const dbPath = (env === 'production')
+    ? process.env.DB_PATH_PROD : process.env.DB_PATH_DEV;
+
+const dbName = process.env.DB_NAME;
+
+const options = {
+    keepAlive: 300000,
+    connectTimeoutMS: 30000,
+    useMongoClient: true
+};
+
+const dbURI = dbPath + dbName;
+mongoose.connect(dbPath + dbName, options);
+
+// Set up event listeners (exempt in testing environment)
+if (env !== 'test') {
+    mongoose.connection.on('connected', function() {
+        console.log('Mongoose successfully connected to ' + dbURI);
+    });
+
+    mongoose.connection.on('error', function(err) {
+        console.log(colors.red('ERROR: Mongoose connection error: ' + err));
+    });
+
+    mongoose.connection.on('disconnected', function() {
+        console.log('Mongoose connection disconnected.'.red);
+        throw new Error('Mongoose disconnected').red();
+    });
+}
 
 module.exports = app;
