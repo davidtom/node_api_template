@@ -30,7 +30,7 @@ module.exports = function(req, res, next) {
             return next(appErr);
         }
         const { privateUser } = constants.projections;
-        User.find({ _id: data.id, privateUser }, function (err, user) {
+        User.findOne({ _id: data._id }, privateUser, function (err, user) {
             if (err) {
                 return next(err);
             }
