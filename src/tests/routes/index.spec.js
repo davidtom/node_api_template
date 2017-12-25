@@ -26,9 +26,3 @@ describe('The server', function() {
             });
     });
 });
-
-// TODO: Tests to write:
-
-// POST to users should not create a user if info is missing
-
-// POST to users should not create a user if passwords dont match

@@ -18,8 +18,6 @@ before(function (done) {
 });
 
 describe('The User model', function() {
-    
-    // TODO: Other tests
 
     it('has a method public() that returns a user with same properties as publicUser projection', function(done) {
         User.create(userData, function(err, user) {
