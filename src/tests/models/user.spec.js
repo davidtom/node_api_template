@@ -18,16 +18,15 @@ before(function (done) {
 });
 
 describe('The User model', function() {
-
     it('has a method public() that returns a user with same properties as publicUser projection', function(done) {
         User.create(userData, function(err, user) {
-            if(err) {
+            if (err) {
                 console.log(err);
             }
             const publicDbUser = user.public();
             const { publicUser } = constants.projections;
             publicDbUser.should.have.all.keys(publicUser);
             done();
-        })
+        });
     });
-})
+});
