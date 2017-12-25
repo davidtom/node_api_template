@@ -18,7 +18,7 @@ router.route('/')
         // If authorization is successful, respond with user data
         const { currentUser } = req;
         const { publicUser } = constants.projections;
-        User.find({ _id: currentUser._id }, publicUser, function(err, user) {
+        User.findOne({ _id: currentUser._id }, publicUser, function(err, user) {
             if (err) {
                 return next(err);
             }
