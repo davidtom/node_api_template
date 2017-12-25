@@ -6,6 +6,7 @@ module.exports = {
         // User data safe to respond to API requests with
         publicUser: {
             _id: true,
+            email: true,
             firstName: true,
             lastName: true,
             roles: true

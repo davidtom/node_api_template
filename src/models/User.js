@@ -63,7 +63,7 @@ userSchema.methods.public = function() {
     return {
         _id: this._id,
         firstName: this.firstName,
-        lastname: this.lastName,
+        lastName: this.lastName,
         email: this.email,
         roles: this.roles
     };

@@ -28,10 +28,6 @@ describe('The server', function() {
 });
 
 // TODO: Tests to write:
-// write a test that makes sure that safeUser fields
-// match constants.projections.publicUser!!
-
-// public routes should NEVER include a password field!
 
 // POST to users should not create a user if info is missing
 
