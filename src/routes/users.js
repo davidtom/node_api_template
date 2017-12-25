@@ -8,6 +8,7 @@ const { signUpDataPresent, passwordsMatch } = require('../middlewares/signUp');
 const authorizeRequest = require('../middlewares/authorizeRequest');
 const { issueJWT } = require('../utils/auth');
 const constants = require('../utils/constants');
+const permitProperties = require('../utils/permitProperties');
 
 const router = express.Router();
 
@@ -24,7 +25,7 @@ router.route('/')
         });
     })
     .post(signUpDataPresent, passwordsMatch, function(req, res, next) {
-        // Pull userData from request
+        // Pull userData from request - set by signUpDataPresent
         const { userData } = req;
 
         // Create a new User and send back as response
@@ -44,6 +45,21 @@ router.route('/')
                     user: user.public()
                 });
             });
+        });
+    })
+    .patch(authorizeRequest, function(req, res, next) {
+        // Update based on currentUser so users can only change information on themselves
+        const { currentUser } = req;
+        // Set whitelisted attributes that can be updated
+        const updatedUser = permitProperties(req.body, ['firstName', 'lastName', 'email']);
+        User.update({
+            _id: currentUser._id,
+            email: currentUser.email
+        }, { $set: updatedUser }, function(err, result) {
+            if (err) {
+                return next(err);
+            }
+            res.json(result);
         });
     });
 
