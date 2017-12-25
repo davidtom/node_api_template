@@ -44,10 +44,6 @@ router.route('/')
                 });
             });
         });
-    })
-    // DELETE = logout
-    .delete(authorizeRequest, function(req, res, next) {
-        // TODO: logout functions
     });
 
 module.exports = router;
