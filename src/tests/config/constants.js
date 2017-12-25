@@ -13,4 +13,4 @@ module.exports.updatedUserData = {
     email: 'ttestamonte@yahoo.com',
     password: '456',
     roles: ['admin']
-}
+};

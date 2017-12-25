@@ -1,4 +1,5 @@
 /* eslint handle-callback-err: 0 */
+/* eslint no-unused-expressions: 0 */
 
 // Library Imports
 const chai = require('chai');
@@ -78,22 +79,22 @@ describe('api/v1/users', function() {
     describe('PATCH', function() {
         it('is an authorized route', function(done) {
             request.patch(url)
-            .set('token', 'fake')
-            .end(function(err, res) {
-                res.should.have.status(401);
-                res.body.should.be.an('object');
-                res.body.should.have.property('message');
-                done();
-            });
+                .set('token', 'fake')
+                .end(function(err, res) {
+                    res.should.have.status(401);
+                    res.body.should.be.an('object');
+                    res.body.should.have.property('message');
+                    done();
+                });
         });
 
         // Save user data before update
         before(function(done) {
-            User.findOne({_id: userId}, function(err, user) {
+            User.findOne({ _id: userId }, function(err, user) {
                 originalUser = user;
                 done();
-            })
-        })
+            });
+        });
 
         it('Updates a user\'s data', function(done) {
             request.patch(url)
