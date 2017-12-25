@@ -1,3 +1,5 @@
+/* eslint handle-callback-err: 0 */
+
 // Library Imports
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -9,48 +11,48 @@ const app = require('../../app');
 const User = require('../../models/User');
 const { userData } = require('../config/constants');
 
-const should = chai.should();
+chai.should();
 chai.use(chaiHttp);
 
 const server = http.createServer(app);
 const request = chai.request(server);
 
-describe('api/v1/users', function(){
+describe('api/v1/users', function() {
     // url for all tests
     const url = '/api/v1/users';
 
     before(function(done) {
         User.remove({}, function(err) {
-            done()
+            done();
         });
     });
 
     // token variable to be set during tests
     let token;
 
-    describe('POST', function(){
+    describe('POST', function() {
         it('responds with a token and a user with no password', function(done) {
             request.post(url)
-            .set('Content-Type', 'application/json')
-            .send(userData)
-            .end(function (err, res) {
-                res.should.have.status(200);
-                res.body.should.be.an('object');
-                res.body.should.have.property('token');
-                res.body.should.have.property('user');
-                res.body.user.should.not.have.property('password');
-                // store token for subsequent tests of authorized routes
-                token = res.body.token;
-                done();
-            })
-        })
-    })
+                .set('Content-Type', 'application/json')
+                .send(userData)
+                .end(function(err, res) {
+                    res.should.have.status(200);
+                    res.body.should.be.an('object');
+                    res.body.should.have.property('token');
+                    res.body.should.have.property('user');
+                    res.body.user.should.not.have.property('password');
+                    // store token for subsequent tests of authorized routes
+                    token = res.body.token;
+                    done();
+                });
+        });
+    });
 
-    describe('GET', function(){
-        it('is an authorized route', function (done) {
+    describe('GET', function() {
+        it('is an authorized route', function(done) {
             request.get(url)
                 .set('token', 'fake')
-                .end(function (err, res) {
+                .end(function(err, res) {
                     res.should.have.status(401);
                     res.body.should.be.an('object');
                     res.body.should.have.property('message');
@@ -60,14 +62,14 @@ describe('api/v1/users', function(){
 
         it('responds with a list of users with no password', function (done) {
             request.get(url)
-            .set('token', token)
-            .end(function (err, res) {
-                res.should.have.status(200);
-                res.body.should.be.an('array');
-                res.body.should.have.length(1);
-                res.body[0].should.not.have.property('password');
-                done();
-            });
+                .set('token', token)
+                .end(function (err, res) {
+                    res.should.have.status(200);
+                    res.body.should.be.an('array');
+                    res.body.should.have.length(1);
+                    res.body[0].should.not.have.property('password');
+                    done();
+                });
         });
     });
 });

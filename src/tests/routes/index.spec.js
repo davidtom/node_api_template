@@ -1,3 +1,5 @@
+/* eslint handle-callback-err: 0 */
+
 // Library Imports
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -7,13 +9,13 @@ const http = require('http');
 // Project Imports
 const app = require('../../app');
 
-const should = chai.should();
+chai.should();
 chai.use(chaiHttp);
 
 const server = http.createServer(app);
 const request = chai.request(server);
 
-describe('The server', function () {    
+describe('The server', function() {
     it('responds to requests to / with a 404 error', function (done) {
         request.get('/')
             .end((err, res) => {

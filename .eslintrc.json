@@ -43,5 +43,8 @@
          "operator-linebreak": 1,
          "padded-blocks": 1,
          "spaced-comment": 1
+    },
+    "env": {
+        "mocha": true
     }
 }
