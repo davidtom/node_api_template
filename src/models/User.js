@@ -59,9 +59,6 @@ userSchema.path('email').validate(function(email) {
 
 // User model methods and statics
 // Get only data that is safe to be public for a user
-// TESTED
-// TODO: right a test that makes sure that safeUser fields
-// match constants.projections.publicUser!!
 userSchema.methods.public = function() {
     return {
         _id: this._id,
