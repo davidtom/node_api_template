@@ -46,16 +46,23 @@ router.route('/')
                 });
             });
         });
-    })
-    .patch(authorizeRequest, function(req, res, next) {
-        // Update based on currentUser so users can only change information on themselves
-        const { currentUser } = req;
+    });
+
+router.route('/:id')
+    .put(authorizeRequest, function(req, res, next) {
+        const userId = req.params.id;
         // Set whitelisted attributes that can be updated
         const updatedUser = permitProperties(req.body, ['firstName', 'lastName', 'email']);
-        User.update({
-            _id: currentUser._id,
-            email: currentUser.email
-        }, { $set: updatedUser }, function(err, result) {
+        User.update({ _id: userId }, { $set: updatedUser }, function(err, result) {
+            if (err) {
+                return next(err);
+            }
+            res.json(result);
+        });
+    })
+    .delete(authorizeRequest, function(req, res, next) {
+        const userId = req.params.id;
+        User.remove({ _id: userId }, function(err, result) {
             if (err) {
                 return next(err);
             }

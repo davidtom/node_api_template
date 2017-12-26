@@ -76,9 +76,9 @@ describe('api/v1/users', function() {
         });
     });
 
-    describe('PATCH', function() {
+    describe('PUT', function() {
         it('is an authorized route', function(done) {
-            request.patch(url)
+            request.put(url + '/' + userId)
                 .set('token', 'fake')
                 .end(function(err, res) {
                     res.should.have.status(401);
@@ -96,8 +96,8 @@ describe('api/v1/users', function() {
             });
         });
 
-        it('Updates a user\'s data', function(done) {
-            request.patch(url)
+        it('updates a user\'s data', function(done) {
+            request.put(url + '/' + userId)
                 .set('token', token)
                 .send(updatedUserData)
                 .end(function (err, res) {
@@ -111,7 +111,7 @@ describe('api/v1/users', function() {
                 });
         });
 
-        it('Does not update a user\'s _id', function(done) {
+        it('does not update a user\'s _id', function(done) {
             User.findOne({ _id: originalUser._id }, function(err, user) {
                 expect(user).to.exist;
                 expect(user._id).to.eql(originalUser._id);
@@ -119,18 +119,45 @@ describe('api/v1/users', function() {
             });
         });
 
-        it('Does not update a user\'s role', function(done) {
+        it('does not update a user\'s role', function(done) {
             User.findOne({ _id: originalUser._id }, function(err, user) {
                 expect(user.roles).to.eql(originalUser.roles);
                 done();
             });
         });
 
-        it('Does not update a user\'s password', function(done) {
+        it('does not update a user\'s password', function(done) {
             User.findOne({ _id: originalUser._id }, function(err, user) {
                 expect(user.password).to.equal(originalUser.password);
                 done();
             });
+        });
+    });
+
+    describe('DELETE', function() {
+        it('is an authorized route', function (done) {
+            request.delete(url + '/' + userId)
+                .set('token', 'fake')
+                .end(function (err, res) {
+                    res.should.have.status(401);
+                    res.body.should.be.an('object');
+                    res.body.should.have.property('message');
+                    done();
+                });
+        });
+
+        it('deletes a user\'s data', function(done) {
+            request.delete(url + '/' + userId)
+                .set('token', token)
+                .end(function(err, res) {
+                    res.should.have.status(200);
+                    res.body.should.be.an('object');
+                    res.body.should.have.property('n');
+                    res.body.n.should.equal(1);
+                    res.body.should.have.property('ok');
+                    res.body.ok.should.equal(1);
+                    done();
+                });
         });
     });
 });
