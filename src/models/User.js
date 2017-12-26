@@ -34,6 +34,9 @@ const userSchema = new Schema({
         type: Array,
         default: ['user']
     }
+},
+{
+    timestamps: true
 });
 
 // Pre save hooks
