@@ -89,8 +89,8 @@ if (env !== 'test') {
     });
 
     mongoose.connection.on('disconnected', function() {
-        console.log('Mongoose connection disconnected.'.red);
-        throw new Error('Mongoose disconnected').red();
+        console.log(colors.red('Mongoose connection disconnected.'));
+        throw new Error('Mongoose disconnected');
     });
 }
 
