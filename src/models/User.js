@@ -55,8 +55,9 @@ userSchema.pre('save', function(next) {
             user.password = hash;
             return next();
         });
+    } else {
+        next();
     }
-    next();
 });
 
 // Validations
