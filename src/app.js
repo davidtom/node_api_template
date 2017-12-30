@@ -75,6 +75,9 @@ const options = {
     useMongoClient: true
 };
 
+// Set mongoose promise library (added to avoid deprecation warnings)
+mongoose.Promise = global.Promise;
+
 const dbURI = dbPath + dbName;
 mongoose.connect(dbPath + dbName, options);
 
