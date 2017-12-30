@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 // Global Imports
 // Project Imports
 const AppError = require('../utils/appError');
+const contactSchema = require('./Contact');
 
 const Schema = mongoose.Schema;
 
@@ -30,6 +31,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    contacts: [contactSchema],
     roles: { // eg user, admin, etc.
         type: Array,
         default: ['user']
@@ -40,17 +42,21 @@ const userSchema = new Schema({
 });
 
 // Pre save hooks
-// Hash password before saving
+// Hash password before saving (for first time)
 userSchema.pre('save', function(next) {
     const user = this;
-    const saltRounds = 10;
-    bcrypt.hash(user.password, saltRounds, function(err, hash) {
-        if (err) {
-            return next(err);
-        }
-        user.password = hash;
-        next();
-    });
+    // Hash password, but only if user has not been saved before (ie it is new)
+    if (user.__v === undefined){
+        const saltRounds = 10;
+        bcrypt.hash(user.password, saltRounds, function (err, hash) {
+            if (err) {
+                return next(err);
+            }
+            user.password = hash;
+            return next();
+        });
+    }
+    next();
 });
 
 // Validations
@@ -70,6 +76,14 @@ userSchema.methods.public = function() {
         email: this.email,
         roles: this.roles
     };
+};
+
+userSchema.methods.hasContact = function(newContact) {
+    const existing = this.contacts.find(contact => contact.email === newContact.email);
+    if (existing) {
+        return true;
+    }
+    return false;
 };
 
 // Authenticate email and password
