@@ -24,4 +24,4 @@ module.exports = {
         const err = new AppError('Invalid body; new contact must have an email: ' + JSON.stringify(req.body), 400);
         next(err);
     }
-}
+};

@@ -46,7 +46,7 @@ const userSchema = new Schema({
 userSchema.pre('save', function(next) {
     const user = this;
     // Hash password, but only if user has not been saved before (ie it is new)
-    if (user.__v === undefined){
+    if (user.__v === undefined) {
         const saltRounds = 10;
         bcrypt.hash(user.password, saltRounds, function (err, hash) {
             if (err) {
