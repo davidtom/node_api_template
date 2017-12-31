@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm test && npm run dev-server",
     "test": "npm run test-unit",
-    "test-unit": "NODE_ENV=test mocha --exit './src/tests/**/*.spec.js'",
+    "test-unit": "NODE_ENV=test mocha --exit './src/tests/'",
     "dev-server": "NODE_ENV=development nodemon ./src/ --exec './node_modules/.bin/eslint ./src/ && node --inspect'"
   },
   "author": "David Tomczyk",
