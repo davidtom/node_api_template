@@ -4,10 +4,10 @@
   "description": "Boilerplate setup for a Node API running Express and MongoDB",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=development nodemon ./src/ --exec './node_modules/.bin/eslint ./src/ && node --inspect'",
+    "start": "npm test && npm run dev-server",
     "test": "npm run test-unit",
-    "test-unit": "NODE_ENV=test mocha './src/tests/**/*.spec.js'",
-    "server": "NODE_ENV=development node --inspect ./src"
+    "test-unit": "NODE_ENV=test mocha --exit './src/tests/**/*.spec.js'",
+    "dev-server": "NODE_ENV=development nodemon ./src/ --exec './node_modules/.bin/eslint ./src/ && node --inspect'"
   },
   "author": "David Tomczyk",
   "license": "MIT",
