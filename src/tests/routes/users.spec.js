@@ -10,7 +10,7 @@ const http = require('http');
 // Project Imports
 const app = require('../../app');
 const User = require('../../models/User');
-const { userData } = require('../config/constants');
+const { userData, newContactData } = require('../config/constants');
 const { updatedUserData } = require('../config/constants');
 
 const expect = chai.expect;
@@ -134,11 +134,93 @@ describe('api/v1/users', function() {
         });
     });
 
-    describe('DELETE', function() {
+    describe('POST /:id/contacts', function() {
+        it('is an authorized route', function(done) {
+            request.post(url + '/' + userId + '/contacts')
+                .set('token', 'fake')
+                .end(function(err, res) {
+                    res.should.have.status(401);
+                    res.body.should.be.an('object');
+                    res.body.should.have.property('message');
+                    done();
+                });
+        });
+
+        it('responds with the new contact document when successful', function(done) {
+            request.post(url + '/' + userId + '/contacts')
+                .set('Content-Type', 'application/json')
+                .set('token', token)
+                .send(newContactData)
+                .end(function(err, res) {
+                    res.should.have.status(200);
+                    res.body.should.be.an('object');
+                    res.body.should.have.property('_id');
+                    res.body.email.should.equal(newContactData.email);
+                    done();
+                });
+        });
+
+        it('does not allow a user to have contacts with duplicate emails', function(done) {
+            request.post(url + '/' + userId + '/contacts')
+                .set('Content-Type', 'application/json')
+                .set('token', token)
+                .send(newContactData)
+                .end(function(err, res) {
+                    res.should.have.status(400);
+                    res.body.should.be.an('object');
+                    res.body.should.have.property('message');
+                    done();
+                });
+        });
+
+        it('responds with an error if a contact does not have an email', function (done) {
+            // remove password from newContactData
+            delete newContactData.email;
+
+            request.post(url + '/' + userId + '/contacts')
+                .set('Content-Type', 'application/json')
+                .set('token', token)
+                .send(newContactData)
+                .end(function (err, res) {
+                    res.should.have.status(400);
+                    res.body.should.be.an('object');
+                    res.body.should.have.property('message');
+                    done();
+                });
+        });
+    });
+
+    describe('GET /:id/contacts', function() {
         it('is an authorized route', function (done) {
-            request.delete(url + '/' + userId)
+            request.get(url + '/' + userId + '/contacts')
                 .set('token', 'fake')
                 .end(function (err, res) {
+                    res.should.have.status(401);
+                    res.body.should.be.an('object');
+                    res.body.should.have.property('message');
+                    done();
+                });
+        });
+
+        it('responds with a list of the user\'s contacts', function (done) {
+            request.get(url + '/' + userId + '/contacts')
+                .set('token', token)
+                .end(function (err, res) {
+                    res.should.have.status(200);
+                    res.body.should.be.an('array');
+                    res.body.should.have.length(1);
+                    res.body[0].should.have.property('_id');
+                    res.body[0].should.have.property('email');
+                    done();
+                });
+        });
+    });
+
+    describe('DELETE', function() {
+        it('is an authorized route', function(done) {
+            request.delete(url + '/' + userId)
+                .set('token', 'fake')
+                .end(function(err, res) {
                     res.should.have.status(401);
                     res.body.should.be.an('object');
                     res.body.should.have.property('message');

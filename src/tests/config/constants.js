@@ -14,3 +14,11 @@ module.exports.updatedUserData = {
     password: '456',
     roles: ['admin']
 };
+
+module.exports.newContactData = {
+    firstName: 'Connie',
+    lastName: 'Contact',
+    email: 'ccontact@sbcglobal.net',
+    phone: 1234567890,
+    source: 'Friend'
+};

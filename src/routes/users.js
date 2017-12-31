@@ -6,9 +6,11 @@ const express = require('express');
 const User = require('../models/User');
 const { signUpDataPresent, passwordsMatch } = require('../middlewares/signUp');
 const authorizeRequest = require('../middlewares/authorizeRequest');
+const { contactDataPresent } = require('../middlewares/contacts');
 const { issueJWT } = require('../utils/auth');
 const constants = require('../utils/constants');
 const permitProperties = require('../utils/permitProperties');
+const AppError = require('../utils/appError');
 
 const router = express.Router();
 
@@ -67,6 +69,34 @@ router.route('/:id')
                 return next(err);
             }
             res.json(result);
+        });
+    });
+
+router.route('/:id/contacts')
+    .get(authorizeRequest, function(req, res, next) {
+        const { currentUser } = req;
+        res.json(currentUser.contacts);
+    })
+    .post(authorizeRequest, contactDataPresent, function(req, res, next) {
+        const { currentUser, newContact } = req;
+
+        // Check if contact (by email) already exists in user's contacts
+        if (currentUser.hasContact(newContact)) {
+            const appErr = new AppError(
+                `Contact with email address: ${newContact.email} already exists`,
+                400
+            );
+            return next(appErr);
+        }
+
+        // Add user to contacts, save, and return new contact
+        currentUser.contacts.push(newContact);
+        currentUser.save(function(err) {
+            if (err) {
+                return next(err);
+            }
+            const lastIndex = currentUser.contacts.length - 1;
+            res.json(currentUser.contacts[lastIndex]);
         });
     });
 
